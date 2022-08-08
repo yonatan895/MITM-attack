@@ -28,12 +28,12 @@ class PreAttack(object):  # Function to be called before the attack
 
         def enable_IP_Forward(self):
             with open(self.path, "wb") as file:  # Enable IP forwarding
-                file.write("1")  # 1 = Enable
+                file.write('1'.encode())  # 1 = Enable
             return 1
 
         def disable_IP_Forward(self):  # Disable IP forwarding
             with open(self.path, "wb") as file:
-                file.write("0")
+                file.write('0'.encode())
             return 0
 
 
